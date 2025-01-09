@@ -34,8 +34,8 @@
                                         <td class="text-right">
                                             <!-- ปุ่มแก้ไข -->
                                             <div class="flex justify-end ml-auto">
-                                                <button type="button" onclick="openEditUserModal({{ $user }})"
-                                                    class="text-blue-500 hover:underline">
+                                                <button  class="mr-3"
+                                                    onclick="openEditUserModal({ id: {{ $user->id }}, name: '{{ $user->name }}', email: '{{ $user->email }}', role: '{{ $user->role }}' })">
                                                     <svg class="w-6 h-6 text-gray-800 dark:text-green-600"
                                                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                                         width="24" height="24" fill="currentColor"
@@ -298,13 +298,14 @@
 
 <script>
     function openEditUserModal(user) {
-        // เติมค่าลงในฟอร์ม
+        // ตั้งค่า action URL ของฟอร์ม
+        const form = document.getElementById('edit-user-form');
+        form.action = `{{ url('UsersManage') }}/${user.id}`;
+
+        // เติมข้อมูลในฟอร์ม
         document.getElementById('edit-name').value = user.name;
         document.getElementById('edit-email').value = user.email;
         document.getElementById('edit-role').value = user.role;
-
-        // ตั้งค่า action URL ของฟอร์ม
-        document.getElementById('edit-user-form').action = `/users/${user.id}`;
 
         // แสดง Modal
         const modal = document.getElementById('edit-user-modal');

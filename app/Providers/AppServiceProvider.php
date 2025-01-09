@@ -24,9 +24,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    // public function boot()
-    // {
-    //     // ลงทะเบียน 'role' middleware
-    //     Route::aliasMiddleware('role', RoleMiddleware::class);
-    // }
+    public function boot()
+    {
+        // ลงทะเบียน 'role' middleware
+        // Route::aliasMiddleware('role', RoleMiddleware::class);
+    }
 }

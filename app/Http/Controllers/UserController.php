@@ -29,7 +29,7 @@ class UserController extends Controller
                 'password' => 'required|confirmed|min:8',
                 'role' => 'required|in:user,admin',
             ]);
-
+            // dd($request->role);
             User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -45,33 +45,37 @@ class UserController extends Controller
     }
 
 
-    public function update(Request $request, User $user)
-    {
-        try {
-            DB::beginTransaction();
+    public function update(Request $request, $id)
+{
+    try {
+        // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
+        $user = User::findOrFail($id);  // ใช้ findOrFail เพื่อให้แน่ใจว่าจะได้รับข้อมูลจากฐานข้อมูล
 
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-                'role' => 'required|string|in:admin,user', // ตรวจสอบว่าเป็น admin หรือ user เท่านั้น
-            ]);
-            $user->update([
-                'name' => $validatedData['name'],
-                'email' => $validatedData['email'],
-                'role' => $validatedData['role'], // เพิ่มส่วน role ด้วย
-            ]);
-            DB::commit();
-            // ส่งข้อความ success ไปยัง session
-            return redirect()->back()->with('status', 'success')->with('message', 'User updated successfully :)');
-        } catch (\Exception $e) {
-            // ถ้ามีข้อผิดพลาดเกิดขึ้น rollback
-            DB::rollback();
-            // Log ข้อผิดพลาดเพื่อการ debug
-            Log::error('Update User Failed: ' . $e->getMessage());
-            // ส่งข้อความ error ไปยัง session
-            return redirect()->back()->with('status', 'error')->with('message', 'Update failed :) ' . $e->getMessage());
-        }
+        DB::beginTransaction();
+
+        // ตรวจสอบข้อมูลที่ส่งมา
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255' . $user->id,
+            'role' => 'required|string|in:admin,user', // ตรวจสอบว่าเป็น admin หรือ user เท่านั้น
+        ]);
+
+        // อัปเดตข้อมูลผู้ใช้
+        $user->update([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'role' => $validatedData['role'],
+        ]);
+
+        DB::commit();
+        return redirect()->back()->with('status', 'success')->with('message', 'User updated successfully :)');
+    } catch (\Exception $e) {
+        DB::rollback();
+        Log::error('Update User Failed: ' . $e->getMessage());
+        return redirect()->back()->with('status', 'error')->with('message', 'Update failed :) ' . $e->getMessage());
     }
+}
+
 
 
     public function destroy(Request $request, $id)
