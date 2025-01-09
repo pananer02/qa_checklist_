@@ -47,12 +47,14 @@
         @include('layouts.sibar')
         {{-- @include('layouts.toast') --}}
         <!-- Page Content -->
-        <div class="lg:ml-64 lg:pt-10 pt-5"> <!-- Apply margin and padding for large screens -->
+        <div class="p-4 sm:ml-64"> <!-- Apply margin and padding for large screens -->
             <main class="p-4">
                 {{ $slot }}
             </main>
         </div>
     </div>
+
+
     <div class="toast-container">
         <!-- Success Toast -->
         <div id="toast-success"
