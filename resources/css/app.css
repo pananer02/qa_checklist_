@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+@import 'flowbite';
+@import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+table.dataTable {
+    @apply min-w-full table-auto border-collapse;
+}
+
+table.dataTable th,
+table.dataTable td {
+    @apply border-t border-b border-gray-200 px-4 py-2 text-left;
+}
+
+/* Style for table header */
+table.dataTable th {
+    @apply bg-gray-800 text-gray-300; /* Dark gray background and light gray text */
+}
+
+/* Style for table rows */
+table.dataTable tbody tr:hover {
+    @apply bg-gray-50;
+}
+
+/* Pagination */
+div.dataTables_paginate {
+    @apply mt-4 flex justify-between items-center;
+    @apply bg-transparent border-none;
+}
+
+div.dataTables_paginate a {
+    @apply px-3 py-2 rounded-md text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-100;
+}
+
+div.dataTables_paginate a.current {
+    @apply bg-blue-500 text-white;
+}
+
+/* Style for the search input (white background) */
+div.dataTables_filter {
+    @apply flex items-center space-x-2 text-sm;
+    @apply bg-transparent border-none; /* No background and border */
+}
+
+div.dataTables_filter input {
+    @apply px-4 py-2 border border-gray-300 rounded-md text-sm;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply bg-white; /* White background for the search input */
+}
+
+/* Style for the length menu (same color as the table header) */
+div.dataTables_length {
+    @apply text-sm font-medium text-gray-700;
+    @apply bg-transparent border-none;
+}
+
+div.dataTables_length label {
+    @apply mr-2;
+}
+
+div.dataTables_length select {
+    @apply px-4 py-2 border border-gray-300 rounded-md text-sm;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500;
+    @apply bg-gray-800 text-gray-300; /* Same background and text color as table header */
+}
+
+/* Remove background and borders from the information text */
+div.dataTables_info {
+    @apply text-sm text-gray-700 mt-4;
+    @apply bg-transparent border-none;
+}
